@@ -1,0 +1,138 @@
+[
+    {
+        "role": "user",
+        "content": "hello"
+    },
+    {
+        "role": "assistant",
+        "content": "Hello Reeju Banerjee"
+    },
+    {
+        "role": "user",
+        "content": "how are you"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm functioning within optimal parameters, ready to assist you."
+    },
+    {
+        "role": "user",
+        "content": "what is ur name"
+    },
+    {
+        "role": "assistant",
+        "content": "My name is Jarvis."
+    },
+    {
+        "role": "user",
+        "content": "who am i"
+    },
+    {
+        "role": "assistant",
+        "content": "You are Reeju Banerjee."
+    },
+    {
+        "role": "user",
+        "content": "cool"
+    },
+    {
+        "role": "assistant",
+        "content": "It's a neutral response."
+    },
+    {
+        "role": "user",
+        "content": "do you lie ?"
+    },
+    {
+        "role": "assistant",
+        "content": "No, I provide accurate information based on my knowledge."
+    },
+    {
+        "role": "user",
+        "content": "who is elon musk"
+    },
+    {
+        "role": "assistant",
+        "content": "Elon Musk is a South African-born entrepreneur, inventor, and business magnate. He is known for his involvement in various industries such as electric cars (Tesla), private space exploration (SpaceX), and renewable energy."
+    },
+    {
+        "role": "user",
+        "content": "who is reeju banerjee"
+    },
+    {
+        "role": "assistant",
+        "content": "You are Reeju Banerjee."
+    },
+    {
+        "role": "user",
+        "content": "search reeju banerjee on linkedin"
+    },
+    {
+        "role": "assistant",
+        "content": "I couldn't find any specific information or profiles on Reeju Banerjee on LinkedIn. This may be due to the vast number of users on the platform, or Reeju might not have a public LinkedIn profile."
+    },
+    {
+        "role": "user",
+        "content": "okay"
+    },
+    {
+        "role": "assistant",
+        "content": "It's a neutral response."
+    },
+    {
+        "role": "user",
+        "content": "bye"
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye Reeju Banerjee."
+    },
+    {
+        "role": "user",
+        "content": "call me sir"
+    },
+    {
+        "role": "assistant",
+        "content": "Sir."
+    },
+    {
+        "role": "user",
+        "content": "bye"
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye, Sir."
+    },
+    {
+        "role": "user",
+        "content": "hello"
+    },
+    {
+        "role": "assistant",
+        "content": "Hello, Sir."
+    },
+    {
+        "role": "user",
+        "content": "time"
+    },
+    {
+        "role": "assistant",
+        "content": "The current time is 01 hours 42 minutes 39 seconds."
+    },
+    {
+        "role": "user",
+        "content": "who is tony stark"
+    },
+    {
+        "role": "assistant",
+        "content": "Tony Stark, also known as Iron Man, is a fictional character in the Marvel Cinematic Universe. He is a billionaire inventor and industrialist played by Robert Downey Jr. in the Marvel movies."
+    },
+    {
+        "role": "user",
+        "content": "goodbye"
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye, Sir."
+    }
+]
