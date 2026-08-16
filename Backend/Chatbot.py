@@ -1,3 +1,6 @@
+# Author: Reeju Banerjee
+# Registration Number: RA2511003010548
+
 from groq import Groq  # Importing the Groq library to use its API.
 from json import load, dump  # Importing functions to read and write JSON files.
 import datetime  # Importing the datetime module for real-time date and time information.
@@ -18,7 +21,11 @@ client = Groq(api_key=GroqAPIKey)
 messages = []
 
 # Define a system message that provides context to the AI chatbot about its role and behavior.
-System = """"""
+System = f"""Hello, I am {Username}, You are a very accurate and advanced AI chatbot named {Assistantname} which also has real-time up-to-date information.
+*** Do not tell time until I ask, do not talk too much, just answer the question.***
+*** Reply in only English, even if the question is in Hindi, reply in English.***
+*** Do not provide notes in the output, just answer the question and never mention your training data. ***
+"""
 
 # A list of system instructions for the chatbot.
 SystemChatBot = [
@@ -72,7 +79,7 @@ def ChatBot(Query):
 
         # Make a request to the Groq API for a response.
         completion = client.chat.completions.create(
-            model="llama3-70b-8192",  # Specify the AI model to use.
+            model="llama-3.1-8b-instant", # Updated to an active model
             messages=SystemChatBot + [{"role": "system", "content": RealtimeInformation()}] + messages,  # Include system instructions, real-time info, a...
             max_tokens=1024,  # Limit the maximum tokens in the response.
             temperature=0.7,  # Adjust response randomness (higher means more random).
@@ -105,7 +112,7 @@ def ChatBot(Query):
         print(f"Error: {e}")
         with open(r"Data\ChatLog.json", "w") as f:
             dump([], f, indent=4)
-        return ChatBot(Query)  # Retry the query after resetting the log.
+        return "I'm sorry, I encountered an error connecting to my systems."  # FIXED: Graceful error exit to prevent infinite loop
 
 # Main program entry point.
 if __name__ == "__main__":
