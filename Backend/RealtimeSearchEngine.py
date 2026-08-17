@@ -1,27 +1,30 @@
 from googlesearch import search
-from groq import Groq # Importing the Groq library to use its API.
-from json import load, dump # Importing functions to read and write JSON files.
-import datetime # Importing the datetime module for real-time date and time information.
-from dotenv import dotenv_values # Importing dotenv_values to read environment variables from a .env file.
+from groq import Groq
+from json import load, dump
+import datetime
+from dotenv import dotenv_values
+import os
 
 # Load environment variables from the .env file.
 env_vars = dotenv_values(".env")
 
-# Retrieve environment variables for the chatbot configuration.
-Username = env_vars.get("Username")
-Assistantname = env_vars.get("Assistantname")
+# Retrieve environment variables for the chatbot configuration with safe fallbacks.
+Username = env_vars.get("Username", "User")
+Assistantname = env_vars.get("Assistantname", "Jarvis")
 GroqAPIKey = env_vars.get("GroqAPIKey")
 
 # Initialize the Groq client with the provided API key.
 client = Groq(api_key=GroqAPIKey)
 
 # Define the system instructions for the chatbot.
-# Define the system instructions for the chatbot.
 System = f"""Hello, I am {Username}, You are a very accurate and advanced AI chatbot named {Assistantname} which has real-time up-to-date information.
 *** Do not talk too much. Keep responses short, concise, and direct (1-2 sentences maximum). ***
 *** Do not provide disclaimers, notes, or markdown tables unless specifically requested. ***
 *** Provide Answers In a Professional Way, make sure to add full stops, commas, question marks, and use proper grammar. ***
 *** Extract and answer the question directly from the provided search data. However, if the user asks about their own identity, you must answer using the {Username} variable. ***"""
+
+# Ensure the Data directory exists before trying to read/write files
+os.makedirs("Data", exist_ok=True)
 
 # Try to load the chat log from a JSON file, or create an empty one if it doesn't exist.
 try:
@@ -30,6 +33,7 @@ try:
 except:
     with open(r"Data\ChatLog.json", "w") as f:
         dump([], f)
+        messages = []
 
 # Function to perform a Google search and format the results.
 def GoogleSearch(query):
@@ -89,7 +93,7 @@ def RealtimeSearchEngine(prompt):
 
     # Generate a response using the Groq client.
     completion = client.chat.completions.create(
-        model="openai/gpt-oss-20b",  
+        model="llama-3.1-8b-instant",  # FIXED: Updated to Groq's active Llama 3.1 model
         messages=SystemChatBot + [{"role": "system", "content": Information()}] + messages,
         temperature=0.7,
         max_tokens=2048,

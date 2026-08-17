@@ -174,5 +174,221 @@
     {
         "role": "assistant",
         "content": "Goodbye, Reeju Banerjee."
+    },
+    {
+        "role": "user",
+        "content": "Hello."
+    },
+    {
+        "role": "assistant",
+        "content": "Hello, Reeju Banerjee."
+    },
+    {
+        "role": "user",
+        "content": "How are you?"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m fine, thank you."
+    },
+    {
+        "role": "user",
+        "content": "What is my name?"
+    },
+    {
+        "role": "assistant",
+        "content": "Your name is Reeju\u202fBanerjee."
+    },
+    {
+        "role": "user",
+        "content": "What is your name?"
+    },
+    {
+        "role": "assistant",
+        "content": "I am Jarvis."
+    },
+    {
+        "role": "user",
+        "content": "What is the weather?"
+    },
+    {
+        "role": "assistant",
+        "content": "I don\u2019t have current weather data available."
+    },
+    {
+        "role": "user",
+        "content": "What is the weather in chennai right now?"
+    },
+    {
+        "role": "assistant",
+        "content": "I don\u2019t have current weather data available."
+    },
+    {
+        "role": "user",
+        "content": "What day is it today?"
+    },
+    {
+        "role": "assistant",
+        "content": "It is Tuesday, 18\u202fAugust\u202f2026."
+    },
+    {
+        "role": "user",
+        "content": "perform 5 into 5."
+    },
+    {
+        "role": "assistant",
+        "content": "1"
+    },
+    {
+        "role": "user",
+        "content": "Perform 5 into 5 in calculator."
+    },
+    {
+        "role": "assistant",
+        "content": "5 \u00f7 5 = 1"
+    },
+    {
+        "role": "user",
+        "content": "give me the result of 5 added to 5."
+    },
+    {
+        "role": "assistant",
+        "content": "10"
+    },
+    {
+        "role": "user",
+        "content": "How are you?"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm fine, thank you."
+    },
+    {
+        "role": "user",
+        "content": "How are you?"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m fine, thank you."
+    },
+    {
+        "role": "user",
+        "content": "What's my name?"
+    },
+    {
+        "role": "assistant",
+        "content": "Your name is Reeju\u202fBanerjee."
+    },
+    {
+        "role": "user",
+        "content": "What is your name?"
+    },
+    {
+        "role": "assistant",
+        "content": "I am Jarvis."
+    },
+    {
+        "role": "user",
+        "content": "How are you?"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m fine, thank you."
+    },
+    {
+        "role": "user",
+        "content": "What is the weather in chennai?"
+    },
+    {
+        "role": "assistant",
+        "content": "I don\u2019t have current weather data available."
+    },
+    {
+        "role": "user",
+        "content": "Okay, Bye!"
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye!"
+    },
+    {
+        "role": "user",
+        "content": "Windows 5 explorer."
+    },
+    {
+        "role": "assistant",
+        "content": "There isn\u2019t a \u201cWindows\u202f5\u201d operating system; Windows Explorer is the built\u2011in file manager that ships with all modern Windows versions (Windows\u202f7 onward)."
+    },
+    {
+        "role": "user",
+        "content": "Okay, Bye!"
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye!"
+    },
+    {
+        "role": "user",
+        "content": "Okay, Bye!"
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye!"
+    },
+    {
+        "role": "user",
+        "content": "that."
+    },
+    {
+        "role": "assistant",
+        "content": "Could you clarify what you\u2019d like to know?"
+    },
+    {
+        "role": "user",
+        "content": "Okay, Bye!"
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye!"
+    },
+    {
+        "role": "user",
+        "content": "Okay, Bye!"
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye!"
+    },
+    {
+        "role": "user",
+        "content": "Open anti gravity."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry, but I can\u2019t do that."
+    },
+    {
+        "role": "user",
+        "content": "Blue calculator."
+    },
+    {
+        "role": "assistant",
+        "content": "Could you clarify what you mean by \u201cBlue calculator\u201d? Are you looking for a specific calculator program, a color\u2011coded calculator, or something else?"
+    },
+    {
+        "role": "user",
+        "content": "Who is narendra modi?"
+    },
+    {
+        "role": "assistant",
+        "content": "Narendra Modi is an Indian politician who has served as the Prime Minister of India since May\u202f26,\u202f2014. He is the leader of the Bharatiya Janata Party (BJP) and was previously the Chief Minister of Gujarat from 2001 to 2014. Modi\u2019s tenure as prime minister has focused on economic reforms, infrastructure development, digital initiatives, and a range of domestic and foreign policy initiatives, including the \u201cMake in India\u201d campaign, the Goods and Services Tax (GST) implementation, and the \u201cSwachh Bharat\u201d cleanliness drive. He has also been a prominent figure in international diplomacy, engaging with leaders from around the world on issues such as climate change, trade, and global security."
+    },
+    {
+        "role": "user",
+        "content": "Okay, Bye!"
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye!"
     }
 ]

@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from dotenv import dotenv_values
 import os
 import mtranslate as mt
-import time  # IMPORT ADDED HERE
+import time  
 
 # Load environment variables from the .env file.
 env_vars = dotenv_values(".env")
@@ -54,6 +54,9 @@ HtmlCode = '''<!DOCTYPE html>
 # Replace the language setting in the HTML code with the input language from the environment variables.
 HtmlCode = str(HtmlCode).replace("recognition.lang = '';", f"recognition.lang = '{InputLanguage}';")
 
+# Ensure the Data directory exists
+os.makedirs("Data", exist_ok=True)
+
 # Write the modified HTML code to a file.
 with open(r"Data\Voice.html", "w") as f:
     f.write(HtmlCode)
@@ -69,19 +72,26 @@ user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 chrome_options.add_argument(f'user-agent={user_agent}')
 chrome_options.add_argument("--use-fake-ui-for-media-stream")
 chrome_options.add_argument("--use-fake-device-for-media-stream")
-#chrome_options.add_argument("--headless=new")
+chrome_options.add_argument("--headless=new") # FIXED: Uncommented to hide the window!
+chrome_options.add_argument('--log-level=3')  # FIXED: Added to mute terminal warnings
 
 # Initialize the Chrome WebDriver using the ChromeDriverManager.
 service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=chrome_options)
+
+# FIXED: Load the HTML file ONCE globally, not every time the function runs
+driver.get("file:///" + Link)
 
 # Define the path for temporary files.
 TempDirPath = rf"{current_dir}/Frontend/Files"
 
 # Function to set the assistant's status by writing it to a file.
 def SetAssistantStatus(Status):
-    with open(rf'{TempDirPath}/Status.data', "w", encoding='utf-8') as file:
-        file.write(Status)
+    try:
+        with open(rf'{TempDirPath}/Status.data', "w", encoding='utf-8') as file:
+            file.write(Status)
+    except Exception as e:
+        print(f"Error setting status: {e}")
 
 # Function to modify a query to ensure proper punctuation and formatting.
 def QueryModifier(Query):
@@ -115,8 +125,6 @@ def UniversalTranslator(Text):
 
 # Function to perform speech recognition using the WebDriver.
 def SpeechRecognition():
-    # Open the HTML file in the browser.
-    driver.get("file:///" + Link)
     # Start speech recognition by clicking the start button.
     driver.find_element(by=By.ID, value="start").click()
 
@@ -140,7 +148,7 @@ def SpeechRecognition():
         except Exception as e:
             pass
         
-        # FIX ADDED HERE: Add a 0.1 second delay to prevent overloading the local Chrome driver
+        # Add a 0.1 second delay to prevent overloading the local Chrome driver
         time.sleep(0.1)
 
 # Main execution block.

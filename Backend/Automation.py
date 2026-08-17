@@ -1,13 +1,11 @@
 from AppOpener import close, open as appopen
-from webbrowser import open as webopen
 import pywhatkit as kit
 from dotenv import dotenv_values
-from bs4 import BeautifulSoup
+from googlesearch import search 
 from rich import print
 from groq import Groq
 import webbrowser
 import subprocess
-import requests
 import keyboard
 import asyncio
 import os
@@ -15,155 +13,177 @@ import os
 # Load environment variables from the .env file.
 env_vars = dotenv_values(".env")
 GroqAPIKey = env_vars.get("GroqAPIKey")
-
-# Define CSS classes for parsing specific elements in HTML content.
-classes = ["zCubwf", "hgKElc", "ITK00 sy7ric", "Z0LcW", "gsrt vk_bk FzvW5b YwPhnf", "pclqee", "tw-Data-text tw-text-small tw-ta",
-           "IZ6rdc", "O5UrGd LTK0D", "vIsY6d", "webanswers-webanswers_table_webanswers-table", "dDVo ikb48b gsrt", "sXLa0c",
-           "LWkfKc", "VQF4g", "qv3wpc", "kno-rdcst", "SPZ2gb"]
-
-# Define a user-agent for making web requests.
-useragent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36'
+Username = env_vars.get("Username", "User") 
 
 # Initialize the Groq client with the API key.
 client = Groq(api_key=GroqAPIKey)
-
-# Predefined professional responses for user interactions.
-professional_responses = [
-    "Your satisfaction is my top priority; feel free to reach out if there's anything else I can help you with.",
-    "I'm at your service for any additional questions or support you may need—don't hesitate to ask."
-]
 
 # List to store chatbot messages.
 messages = []
 
 # System message to provide context to the chatbot.
-SystemChatBot = [{"role": "system", "content": f"Hello, I am {os.environ.get('Username')}, You're a content writer. You have to write content like letters, codes, applications, essays, notes, songs, poems etc."}]
+SystemChatBot = [{"role": "system", "content": f"Hello, I am {Username}, You're a content writer. You have to write content like letters, codes, applications, essays, notes, songs, poems etc."}]
+
+# Helper function to forcefully open URLs in Google Chrome by finding the exact .exe
+def ForceChrome(url):
+    # Standard Windows Google Chrome installation paths
+    chrome_paths = [
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+        os.path.expanduser(r"~\AppData\Local\Google\Chrome\Application\chrome.exe")
+    ]
+    
+    try:
+        chrome_found = False
+        for path in chrome_paths:
+            if os.path.exists(path):
+                # We found Chrome! Register it and force it to open the URL
+                webbrowser.register('force_chrome', None, webbrowser.BackgroundBrowser(path))
+                webbrowser.get('force_chrome').open(url)
+                chrome_found = True
+                break
+                
+        if not chrome_found:
+            # If Chrome isn't installed in a standard location, fallback to the default browser
+            print("Chrome not found in standard paths. Falling back to system default.")
+            webbrowser.open(url)
+            
+    except Exception as e:
+        print(f"Failed to force Chrome: {e}")
+        webbrowser.open(url) # Ultimate safety fallback
 
 # Function to perform a Google search.
 def GoogleSearch(Topic):
-    kit.search(Topic) # Use pywhatkit's search function to perform a Google search.
-    return True # Indicate success.
+    ForceChrome(f"https://www.google.com/search?q={Topic}") 
+    return True 
 
 # Function to generate content using AI and save it to a file.
 def Content(Topic):
 
-    # Nested function to open a file in Notepad.
     def OpenNotepad(File):
-        default_text_editor = 'notepad.exe' # Default text editor.
-        subprocess.Popen([default_text_editor, File]) # Open the file in Notepad.
+        default_text_editor = 'notepad.exe' 
+        subprocess.Popen([default_text_editor, File]) 
 
-    # Nested function to generate content using the AI chatbot.
     def ContentWriterAI(prompt):
-        messages.append({"role": "user", "content": f"{prompt}"}) # Add the user's prompt to messages.
+        messages.append({"role": "user", "content": f"{prompt}"}) 
 
         completion = client.chat.completions.create(
-            model="openai/gpt-oss-20b", # Updated to Groq's current active open-weights model
-            messages=SystemChatBot + messages, # Include system instructions and chat history.
-            max_tokens=2048, # Limit the maximum tokens in the response.
-            temperature=0.7, # Adjust response randomness.
-            top_p=1, # Use nucleus sampling for response diversity.
-            stream=True, # Enable streaming response.
-            stop=None # Allow the model to determine stopping conditions.
+            model="llama-3.1-8b-instant", 
+            messages=SystemChatBot + messages, 
+            max_tokens=2048, 
+            temperature=0.7, 
+            top_p=1, 
+            stream=True, 
+            stop=None 
         )
 
-        Answer = "" # Initialize an empty string for the response.
+        Answer = "" 
 
-        # Process streamed response chunks.
         for chunk in completion:
-            if chunk.choices[0].delta.content: # Check for content in the current chunk.
-                Answer += chunk.choices[0].delta.content # Append the content to the answer.
+            if chunk.choices[0].delta.content: 
+                Answer += chunk.choices[0].delta.content 
 
-        Answer = Answer.replace("</s>", "") # Remove unwanted tokens from the response.
-        messages.append({"role": "assistant", "content": Answer}) # Add the AI's response to messages.
+        Answer = Answer.replace("</s>", "") 
+        messages.append({"role": "assistant", "content": Answer}) 
         return Answer
 
-    Topic = str(Topic).replace("Content ", "") # Remove "Content " from the topic.
-    ContentByAI = ContentWriterAI(Topic) # Generate content using AI.
+    Topic = str(Topic).replace("Content ", "") 
+    ContentByAI = ContentWriterAI(Topic) 
 
-    # Save the generated content to a text file.
+    os.makedirs("Data", exist_ok=True) 
     with open(rf"Data\{Topic.lower().replace(' ', '')}.txt", "w", encoding="utf-8") as file:
-        file.write(ContentByAI) # Write the content to the file.
+        file.write(ContentByAI) 
         file.close()
 
-    OpenNotepad(rf"Data\{Topic.lower().replace(' ', '')}.txt") # Open the file in Notepad.
-    return True # Indicate success.
+    OpenNotepad(rf"Data\{Topic.lower().replace(' ', '')}.txt") 
+    return True 
 
 # Function to search for a topic on YouTube.
 def YouTubeSearch(Topic):
-    UrlSearch = f"https://www.youtube.com/results?search_query={Topic}" # Construct the YouTube search URL.
-    webbrowser.open(UrlSearch) # Open the search URL in a web browser.
-    return True # Indicate success.
+    ForceChrome(f"https://www.youtube.com/results?search_query={Topic}")
+    return True 
 
 # Function to play a video on YouTube.
 def PlayYouTube(query):
-    kit.playonyt(query) # Use pywhatkit's playonyt function to play the video.
-    return True # Indicate success.
+    kit.playonyt(query) 
+    return True 
 
-# Function to open an application or a relevant webpage.
-def OpenApp(app, sess=requests.session()):
+# Function to open an application or FORCE search Google Chrome if missing.
+def OpenApp(app):
+    app_lower = app.lower().strip()
+    
+    # Handle common local app aliases
+    if app_lower == "chrome":
+        app = "google chrome"
+
     try:
-        appopen(app, match_closest=True, output=True, throw_error=True) # Attempt to open the app.
-        return True # Indicate success.
-    except:
-        # Nested function to extract links from raw HTML content.
-        def extract_links(html):
-            if html is None:
-                return []
-            soup = BeautifulSoup(html, 'html.parser') # Parse the HTML content.
-            links = soup.find_all('a', {'jsname': 'UWCKnb'}) # Find relevant links.
-            return [link.get('href') for link in links] # Return the links.
-
-        # Nested function to perform a Google search and retrieve HTML.
-        def search_google(query):
-            url = f"https://www.google.com/search?q={query}" # Construct the Google search URL.
-            headers = {"User-Agent": useragent} # Use the predefined user-agent.
-            response = sess.get(url, headers=headers) # Perform the GET request.
-
-            if response.status_code == 200:
-                return response.text # Return the HTML content.
-            else:
-                print("Failed to retrieve search results.") # Print an error message.
-            return None
-
-        html = search_google(app) # Perform the Google search.
-
-        if html:
-            link = extract_links(html)[0] # Extract the first link from the search results.
-            webopen(link) # Open the link in a web browser.
-
-        return True # Indicate success.
+        # 1. ALWAYS attempt to open the app locally FIRST.
+        appopen(app, match_closest=False, output=False, throw_error=True) 
+        return True 
+    
+    except Exception:
+        # 2. If the app isn't found locally, forcefully route to Chrome
+        print(f"App '{app}' not found locally. Forcing Google Chrome to open...")
+        
+        # Fast-track dictionary for instant web opening of known platforms
+        common_web_apps = {
+            "instagram": "https://www.instagram.com",
+            "whatsapp": "https://web.whatsapp.com",
+            "facebook": "https://www.facebook.com",
+            "youtube": "https://www.youtube.com",
+            "twitter": "https://www.twitter.com",
+            "x": "https://www.x.com",
+            "github": "https://www.github.com",
+            "linkedin": "https://www.linkedin.com",
+            "discord": "https://discord.com/app",
+            "netflix": "https://www.netflix.com",
+            "spotify": "https://open.spotify.com",
+            "reddit": "https://www.reddit.com",
+            "chatgpt": "https://chatgpt.com",
+            "amazon": "https://www.amazon.in"
+        }
+        
+        if app_lower in common_web_apps:
+            ForceChrome(common_web_apps[app_lower])
+            return True
+        else:
+            # 3. If it's an unknown app, search it on Google and grab the top link
+            try:
+                top_links = list(search(app, num_results=1))
+                if top_links:
+                    ForceChrome(top_links[0])
+                    return True
+            except:
+                # Ultimate fallback: Opens a Google search tab with the app name
+                ForceChrome(f"https://www.google.com/search?q={app}")
+                return True
 
 # Function to close an application.
 def CloseApp(app):
     if "chrome" in app:
-        pass # Skip if the app is Chrome.
+        pass 
     else:
         try:
-            close(app, match_closest=True, output=True, throw_error=True) # Attempt to close the app.
-            return True # Indicate success.
+            close(app, match_closest=True, output=False, throw_error=True) 
+            return True 
         except:
-            return False # Indicate failure.
+            return False 
 
 # Function to execute system-level commands.
 def System(command):
     
-    # Nested function to mute the system volume.
     def mute():
-        keyboard.press_and_release("volume mute") # Simulate the mute key press.
+        keyboard.press_and_release("volume mute") 
 
-    # Nested function to unmute the system volume.
     def unmute():
-        keyboard.press_and_release("volume mute") # Simulate the unmute key press.
+        keyboard.press_and_release("volume mute") 
 
-    # Nested function to increase the system volume.
     def volume_up():
-        keyboard.press_and_release("volume up") # Simulate the volume up key press.
+        keyboard.press_and_release("volume up") 
 
-    # Nested function to decrease the system volume.
     def volume_down():
-        keyboard.press_and_release("volume down") # Simulate the volume down key press.
+        keyboard.press_and_release("volume down") 
 
-    # Execute the appropriate command.
     if command == "mute":
         mute()
     elif command == "unmute":
@@ -173,48 +193,48 @@ def System(command):
     elif command == "volume down":
         volume_down()
 
-    return True # Indicate success.
+    return True 
 
 # Asynchronous function to translate and execute user commands.
 async def TranslateAndExecute(commands: list[str]):
-    funcs = [] # List to store asynchronous tasks.
+    funcs = [] 
 
     for command in commands:
-        if command.startswith("open "): # Handle "open" commands.
-            if "open it" in command: # Ignore "open it" commands.
+        if command.startswith("open "): 
+            if "open it" in command: 
                 pass
-            elif "open file" in command: # Ignore "open file" commands.
+            elif "open file" in command: 
                 pass
             else:
-                fun = asyncio.to_thread(OpenApp, command.removeprefix("open ")) # Schedule app opening.
+                fun = asyncio.to_thread(OpenApp, command.removeprefix("open ")) 
                 funcs.append(fun)
 
-        elif command.startswith("general "): # Placeholder for general commands.
+        elif command.startswith("general "): 
             pass
-        elif command.startswith("realtime "): # Placeholder for real-time commands.
+        elif command.startswith("realtime "): 
             pass
-        elif command.startswith("close "): # Handle "close" commands.
-            fun = asyncio.to_thread(CloseApp, command.removeprefix("close ")) # Schedule app closing.
+        elif command.startswith("close "): 
+            fun = asyncio.to_thread(CloseApp, command.removeprefix("close ")) 
             funcs.append(fun)
-        elif command.startswith("play "): # Handle "play" commands.
-            fun = asyncio.to_thread(PlayYouTube, command.removeprefix("play ")) # Schedule YouTube playback.
+        elif command.startswith("play "): 
+            fun = asyncio.to_thread(PlayYouTube, command.removeprefix("play ")) 
             funcs.append(fun)
-        elif command.startswith("content "): # Handle "content" commands.
-            fun = asyncio.to_thread(Content, command.removeprefix("content ")) # Schedule content creation.
+        elif command.startswith("content "): 
+            fun = asyncio.to_thread(Content, command.removeprefix("content ")) 
             funcs.append(fun)
-        elif command.startswith("google search "): # Handle Google search commands.
-            fun = asyncio.to_thread(GoogleSearch, command.removeprefix("google search ")) # Schedule Google search.
+        elif command.startswith("google search "): 
+            fun = asyncio.to_thread(GoogleSearch, command.removeprefix("google search "))
             funcs.append(fun)
-        elif command.startswith("youtube search "): # Handle YouTube search commands.
-            fun = asyncio.to_thread(YouTubeSearch, command.removeprefix("youtube search ")) # Schedule YouTube search.
+        elif command.startswith("youtube search "): 
+            fun = asyncio.to_thread(YouTubeSearch, command.removeprefix("youtube search ")) 
             funcs.append(fun)
-        elif command.startswith("system "): # Handle system commands.
-            fun = asyncio.to_thread(System, command.removeprefix("system ")) # Schedule system command.
+        elif command.startswith("system "): 
+            fun = asyncio.to_thread(System, command.removeprefix("system ")) 
             funcs.append(fun)
         else:
-            print(f"No Function Found. For {command}") # Print an error for unrecognized commands.
+            print(f"No Function Found. For {command}") 
 
-    results = await asyncio.gather(*funcs) # Execute all tasks concurrently.
+    results = await asyncio.gather(*funcs) 
 
     for result in results:
         if isinstance(result, str):
@@ -224,7 +244,7 @@ async def TranslateAndExecute(commands: list[str]):
 
 # Asynchronous function to automate command execution.
 async def Automation(commands: list[str]):
-    async for result in TranslateAndExecute(commands): # Translate and execute commands.
+    async for result in TranslateAndExecute(commands): 
         pass
 
-    return True # Indicate success.
+    return True
