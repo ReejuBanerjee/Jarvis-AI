@@ -16,9 +16,12 @@ GroqAPIKey = env_vars.get("GroqAPIKey")
 client = Groq(api_key=GroqAPIKey)
 
 # Define the system instructions for the chatbot.
+# Define the system instructions for the chatbot.
 System = f"""Hello, I am {Username}, You are a very accurate and advanced AI chatbot named {Assistantname} which has real-time up-to-date information.
-*** Provide Answers In a Professional Way, make sure to add full stops, commas, question marks, and use proper grammar.***
-*** Just answer the question from the provided data in a professional way. ***"""
+*** Do not talk too much. Keep responses short, concise, and direct (1-2 sentences maximum). ***
+*** Do not provide disclaimers, notes, or markdown tables unless specifically requested. ***
+*** Provide Answers In a Professional Way, make sure to add full stops, commas, question marks, and use proper grammar. ***
+*** Extract and answer the question directly from the provided search data. However, if the user asks about their own identity, you must answer using the {Username} variable. ***"""
 
 # Try to load the chat log from a JSON file, or create an empty one if it doesn't exist.
 try:
@@ -86,7 +89,7 @@ def RealtimeSearchEngine(prompt):
 
     # Generate a response using the Groq client.
     completion = client.chat.completions.create(
-        model="llama-3-8b-instant",  # Updated to the instant model
+        model="openai/gpt-oss-20b",  
         messages=SystemChatBot + [{"role": "system", "content": Information()}] + messages,
         temperature=0.7,
         max_tokens=2048,

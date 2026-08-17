@@ -1,6 +1,3 @@
-# Author: Reeju Banerjee
-# Registration Number: RA2511003010548
-
 from groq import Groq  # Importing the Groq library to use its API.
 from json import load, dump  # Importing functions to read and write JSON files.
 import datetime  # Importing the datetime module for real-time date and time information.
@@ -79,8 +76,8 @@ def ChatBot(Query):
 
         # Make a request to the Groq API for a response.
         completion = client.chat.completions.create(
-            model="llama-3.1-8b-instant", # Updated to an active model
-            messages=SystemChatBot + [{"role": "system", "content": RealtimeInformation()}] + messages,  # Include system instructions, real-time info, a...
+            model="openai/gpt-oss-20b", # Updated to Groq's current active open-weights model
+            messages=SystemChatBot + [{"role": "system", "content": RealtimeInformation()}] + messages,  # Include system instructions, real-time info, and history
             max_tokens=1024,  # Limit the maximum tokens in the response.
             temperature=0.7,  # Adjust response randomness (higher means more random).
             top_p=1,  # Use nucleus sampling to control diversity.
@@ -112,7 +109,7 @@ def ChatBot(Query):
         print(f"Error: {e}")
         with open(r"Data\ChatLog.json", "w") as f:
             dump([], f, indent=4)
-        return "I'm sorry, I encountered an error connecting to my systems."  # FIXED: Graceful error exit to prevent infinite loop
+        return "I'm sorry, I encountered an error connecting to my systems."  # Graceful error exit to prevent infinite loop
 
 # Main program entry point.
 if __name__ == "__main__":
