@@ -390,5 +390,377 @@
     {
         "role": "assistant",
         "content": "Goodbye!"
+    },
+    {
+        "role": "user",
+        "content": "Nahin kiya usne search nahin karega."
+    },
+    {
+        "role": "assistant",
+        "content": "I understand your statement."
+    },
+    {
+        "role": "user",
+        "content": "Hi hello jarvis."
+    },
+    {
+        "role": "assistant",
+        "content": "Hello! How can I help you today?"
+    },
+    {
+        "role": "user",
+        "content": "Can i change your voice."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m a text\u2011only chatbot, so I don\u2019t have a voice to change."
+    },
+    {
+        "role": "user",
+        "content": "So you are good for nothing."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry to hear that you\u2019re disappointed. Let me know how I can assist you better."
+    },
+    {
+        "role": "user",
+        "content": "Aur bhai kaisa hai."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m doing well, thank you. How can I help you today?"
+    },
+    {
+        "role": "user",
+        "content": "What is your name?"
+    },
+    {
+        "role": "assistant",
+        "content": "I am Jarvis."
+    },
+    {
+        "role": "user",
+        "content": "How are you doing?"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m fine, thank you."
+    },
+    {
+        "role": "user",
+        "content": "I'm fine thank you."
+    },
+    {
+        "role": "assistant",
+        "content": "Great to hear! If you have any questions or need assistance, feel free to let me know."
+    },
+    {
+        "role": "user",
+        "content": "refer to me as sir."
+    },
+    {
+        "role": "assistant",
+        "content": "Sure, sir."
+    },
+    {
+        "role": "user",
+        "content": "(Okay cool.)"
+    },
+    {
+        "role": "assistant",
+        "content": "Understood, Sir."
+    },
+    {
+        "role": "user",
+        "content": "How are you jarvis?"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m fine, thank you."
+    },
+    {
+        "role": "user",
+        "content": "Is google gemini better than you."
+    },
+    {
+        "role": "assistant",
+        "content": "It depends on what you\u2019re looking for. Google Gemini is built on Google\u2019s latest language model and has tight integration with Google\u2019s ecosystem (search, Maps, YouTube, etc.), which can give it an edge for tasks that rely heavily on up\u2011to\u2011date web content or Google services.  \n\nJarvis (this chat) is designed for quick, focused answers and can pull in real\u2011time data where available. If you need a broad knowledge base, quick calculations, or real\u2011time updates from multiple sources, Jarvis can be very effective.  \n\nSo, neither is universally \u201cbetter\u201d; it comes down to the specific use case and the features you value most."
+    },
+    {
+        "role": "user",
+        "content": "Okay, Bye!"
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye, sir!"
+    },
+    {
+        "role": "user",
+        "content": "Hello jarvis."
+    },
+    {
+        "role": "assistant",
+        "content": "Hello, sir."
+    },
+    {
+        "role": "user",
+        "content": "How are you?"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m fine, sir."
+    },
+    {
+        "role": "user",
+        "content": "Hello."
+    },
+    {
+        "role": "assistant",
+        "content": "Hello, sir."
+    },
+    {
+        "role": "user",
+        "content": "How are you?"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m fine, thank you."
+    },
+    {
+        "role": "user",
+        "content": "How was your day today?"
+    },
+    {
+        "role": "assistant",
+        "content": "I don\u2019t experience days\u2014just here to help whenever you need."
+    },
+    {
+        "role": "user",
+        "content": "Mera din to aaj bahut lamba tha."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry to hear that. It sounds like it was a long day for you. Is there anything I can help with to make things easier?"
+    },
+    {
+        "role": "user",
+        "content": "Kya khyal hai."
+    },
+    {
+        "role": "assistant",
+        "content": "It sounds exhausting\u2014long days can be draining. If there\u2019s anything I can do to help you unwind or get something done, just let me know."
+    },
+    {
+        "role": "user",
+        "content": "Yah kya band kar diya."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m still here\u2014how can I help you further?"
+    },
+    {
+        "role": "user",
+        "content": "Aaj ka vedar kya hai."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry, but I don\u2019t have current weather data available."
+    },
+    {
+        "role": "user",
+        "content": "Abhi time kya ho raha hai."
+    },
+    {
+        "role": "assistant",
+        "content": "It is 23:20:12."
+    },
+    {
+        "role": "user",
+        "content": "Mujhe 12 format mein batao."
+    },
+    {
+        "role": "assistant",
+        "content": "11:20:34\u202fPM"
+    },
+    {
+        "role": "user",
+        "content": "Sar kaun bolega."
+    },
+    {
+        "role": "assistant",
+        "content": "You can say \u201csar\u201d to me."
+    },
+    {
+        "role": "user",
+        "content": "Bhai kya hal hai."
+    },
+    {
+        "role": "assistant",
+        "content": "I'm fine, thanks. How can I help you today?"
+    },
+    {
+        "role": "user",
+        "content": "Hello."
+    },
+    {
+        "role": "assistant",
+        "content": "Hello, sir."
+    },
+    {
+        "role": "user",
+        "content": "Bhai youtube per gana sunale."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry, but I can\u2019t play music or stream YouTube videos."
+    },
+    {
+        "role": "user",
+        "content": "Play baby by justin bieber on youtube."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry, but I can\u2019t play music or stream YouTube videos."
+    },
+    {
+        "role": "user",
+        "content": "Open google and search alone mask."
+    },
+    {
+        "role": "assistant",
+        "content": "I can\u2019t open a web browser for you, but here\u2019s what I know about **\u201calone mask\u201d**:\n\n- **\u201cAlone\u201d** is a 2017 Korean thriller\u2011horror film directed by Kim Joon\u2011ho.  \n- **Mask** is a common Korean word for a face covering; the film\u2019s title in Korean is *\u201cAlone\u201d (\uc5b4\ub9ac\uc11d\uc740 \ub9c8\uc2a4\ud06c)*, which literally means \u201ca foolish mask.\u201d  \n- The story follows a woman who, after a traumatic event, becomes obsessed with the idea of protecting her identity and \u201cmasking\u201d herself from the world.  \n- The film explores themes of isolation, identity, and psychological trauma, and is noted for its tense atmosphere and strong performances.\n\nIf you\u2019d like more details\u2014like the cast, release date, or a plot synopsis\u2014just let me know!"
+    },
+    {
+        "role": "assistant",
+        "content": "Sure thing. If you need anything else later, just let me know."
+    },
+    {
+        "role": "user",
+        "content": "Play baby on youtube."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry, but I can\u2019t play music or stream YouTube videos."
+    },
+    {
+        "role": "user",
+        "content": "What is the time right now?"
+    },
+    {
+        "role": "assistant",
+        "content": "It is\u202f11:35:10\u202fPM."
+    },
+    {
+        "role": "user",
+        "content": "Goodbye."
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye, sir."
+    },
+    {
+        "role": "user",
+        "content": "Play baby on youtube."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry, but I can\u2019t play music."
+    },
+    {
+        "role": "user",
+        "content": "Search who is narendra modi on google?"
+    },
+    {
+        "role": "assistant",
+        "content": "Sir, Narendra\u202fModi is the current Prime Minister of India, serving since May\u202f26\u202f2014. He is the leader of the Bharatiya Janata Party (BJP) and was previously the Chief Minister of Gujarat (2001\u20112014). His tenure has focused on economic reforms (e.g., GST, \u201cMake in India\u201d), digital initiatives (e.g., Digital India), and various domestic and foreign\u2011policy initiatives. He has been a prominent figure in global diplomacy, engaging on climate change, trade, and security issues."
+    },
+    {
+        "role": "user",
+        "content": "Kya."
+    },
+    {
+        "role": "assistant",
+        "content": "Could you please clarify what you\u2019re asking?"
+    },
+    {
+        "role": "user",
+        "content": "Li biwi by justin bieber on youtube."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry, but I can\u2019t help with that."
+    },
+    {
+        "role": "user",
+        "content": "Play baby on youtube."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry, but I can\u2019t play music."
+    },
+    {
+        "role": "user",
+        "content": "Play baby on youtube."
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry, but I can\u2019t play music."
+    },
+    {
+        "role": "user",
+        "content": "[query]"
+    },
+    {
+        "role": "assistant",
+        "content": "Could you let me know what you\u2019d like to search for?"
+    },
+    {
+        "role": "user",
+        "content": "weather in tamilnadu right now"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m sorry, but I don\u2019t have current weather data available."
+    },
+    {
+        "role": "user",
+        "content": "[query]"
+    },
+    {
+        "role": "assistant",
+        "content": "Sure\u2014what would you like me to search for?"
+    },
+    {
+        "role": "user",
+        "content": "[query]"
+    },
+    {
+        "role": "assistant",
+        "content": "Sure, what would you like me to search for?"
+    },
+    {
+        "role": "user",
+        "content": "[query]"
+    },
+    {
+        "role": "assistant",
+        "content": "Sure, what would you like me to search?"
+    },
+    {
+        "role": "user",
+        "content": "[hello how are you]"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m fine, thank you."
+    },
+    {
+        "role": "user",
+        "content": "Okay, Bye!"
+    },
+    {
+        "role": "assistant",
+        "content": "Goodbye!"
     }
 ]

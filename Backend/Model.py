@@ -1,118 +1,107 @@
-import cohere  # Import the cohere library for AI services.
-from rich import print  # Import the Rich library to enhance terminal outputs.
-from dotenv import dotenv_values  # Import dotenv to load environment variables from a .env file.
+# System // Jarvis Neural Core
+# Module: Advanced Decision-Making Model (First Layer) - Groq Unified
 
-# Load environment variables from the .env file.
+import logging
+from rich import print
+from dotenv import dotenv_values
+from groq import Groq
+from typing import List
+
+# Setup professional logging for silent error tracking
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Load environment variables safely
 env_vars = dotenv_values(".env")
+GroqAPIKey = env_vars.get("GroqAPIKey")
 
-# Retrieve API key.
-CohereAPIKey = env_vars.get("CohereAPIKey")
+if not GroqAPIKey:
+    print("[bold red]CRITICAL ERROR: GroqAPIKey not found in .env file![/bold red]")
 
-# Create a Cohere client using the provided API key.
-co = cohere.Client(api_key=CohereAPIKey)
+# Initialize the Groq client
+client = Groq(api_key=GroqAPIKey)
 
-# Define a list of recognized function keywords for task categorization.
+# Define recognized function keywords for precise task categorization.
 funcs = [
     "exit", "general", "realtime", "open", "close", "play",
     "generate image", "system", "content", "google search",
     "youtube search", "reminder"
 ]
 
-# Initialize an empty list to store user messages.
-messages = []
+def FirstLayerDMM(prompt: str = "test") -> List[str]:
+    """
+    Analyzes the user prompt and classifies it into actionable system commands using Groq.
+    Returns a list of parsed command strings.
+    """
+    try:
+        # Brutally strict system prompt to force exact string matching
+        system_prompt = """
+        You are a backend routing model. Your ONLY job is to classify the user's input into specific function strings.
+        DO NOT talk, converse, or explain. ONLY output the formatted strings separated by commas.
+        
+        Routing Categories:
+        - 'general [query]' : For chatting, general questions, and facts.
+        - 'realtime [query]' : For live data, current weather, or recent news.
+        - 'open [app]' : To open an application or website.
+        - 'close [app]' : To close an application.
+        - 'play [song]' : To play a song or video on YouTube.
+        - 'generate image [prompt]' : To generate an image.
+        - 'system [task]' : For hardware controls (mute, unmute, volume up, volume down).
+        - 'content [topic]' : To write text, emails, essays, or code.
+        - 'google search [topic]' : To search Google.
+        - 'youtube search [topic]' : To search YouTube.
+        - 'exit' : If the user says goodbye or quit.
+        
+        Strict Rules:
+        1. If input is "play baby on youtube", output EXACTLY: play baby
+        2. If input is "search who is narendra modi on google", output EXACTLY: google search who is narendra modi
+        3. If multiple tasks: "open chrome and play despacito" -> output: open chrome, play despacito
+        4. If unrecognized or ambiguous, default to: general [query]
+        """
+        
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": prompt}
+        ]
 
-# Define the preamble that guides the AI model on how to categorize queries.
-preamble = """
-You are a very accurate Decision-Making Model, which decides what kind of a query is given to you.
-You will decide whether a query is a 'general' query, a 'realtime' query, or is asking to perform any task or automation like 'open facebook'.
-*** Do not answer any query, just decide what kind of query is given to you. ***
--> Respond with 'general ( query )' if a query can be answered by a llm model (conversational ai chatbot) and doesn't require any up to date info.
--> Respond with 'realtime ( query )' if a query can not be answered by a llm model (because they don't have realtime data) and requires up to date info.
--> Respond with 'open (application name or website name)' if a query is asking to open any application like 'open facebook', 'open telegram', etc.
--> Respond with 'close (application name)' if a query is asking to close any application like 'close notepad', 'close facebook', etc.
--> Respond with 'play (song name)' if a query is asking to play any song like 'play afsanay by ys', 'play let her go', etc.
--> Respond with 'generate image (image prompt)' if a query is requesting to generate a image with given prompt like 'generate image of a lion'.
--> Respond with 'reminder (datetime with message)' if a query is requesting to set a reminder like 'set a reminder at 9:00pm on 25th june for meeting'.
--> Respond with 'system (task name)' if a query is asking to mute, unmute, volume up, volume down, etc.
--> Respond with 'content (topic)' if a query is asking to write any type of content like application, codes, emails or anything else.
--> Respond with 'google search (topic)' if a query is asking to search a specific topic on google.
--> Respond with 'youtube search (topic)' if a query is asking to search a specific topic on youtube.
-*** If the query is asking to perform multiple tasks like 'open facebook, telegram and close whatsapp' respond with 'open facebook, open telegram, close whatsapp' ***
-*** If the user is saying goodbye or wants to end the conversation like 'bye jarvis.' respond with 'exit'. ***
-*** Respond with 'general (query)' if you can't decide the kind of query or if a query is asking to perform a task which is not mentioned above. ***
-"""
+        # FIXED: Swapped to an actively supported production model on Groq
+        completion = client.chat.completions.create(
+            model="openai/gpt-oss-20b",
+            messages=messages,
+            temperature=0.0, 
+            max_tokens=1024
+        )
 
-# Define a chat history with predefined user-chatbot interactions for context.
-ChatHistory = [
-    {"role": "User", "message": "how are you?"},
-    {"role": "Chatbot", "message": "general how are you?"},
-    {"role": "User", "message": "do you like pizza?"},
-    {"role": "Chatbot", "message": "general do you like pizza?"},
-    {"role": "User", "message": "open chrome and tell me about mahatma gandhi."},
-    {"role": "Chatbot", "message": "open chrome, general tell me about mahatma gandhi."},
-    {"role": "User", "message": "open chrome and firefox"},
-    {"role": "Chatbot", "message": "open chrome, open firefox"},
-    {"role": "User", "message": "what is the date and by the way remind me that i have a dancing performance on 5th aug at 11pm"},
-    {"role": "Chatbot", "message": "general what is today's date, reminder 11:00pm 5th aug dancing performance"},
-    {"role": "User", "message": "chat with me."},
-    {"role": "Chatbot", "message": "general chat with me."}
-]
+        response = completion.choices[0].message.content
 
+        # Clean and parse the response string safely
+        response = response.replace("\n", " ")
+        raw_tasks = response.split(",")
+        cleaned_tasks = [task.strip().lower().replace(".", "").replace("?", "").replace("!", "") for task in raw_tasks]
 
-# Define the main function for decision-making on queries.
-def FirstLayerDMM(prompt: str = "test"):
+        valid_tasks = []
+        for task in cleaned_tasks:
+            for func in funcs:
+                if task.startswith(func):
+                    valid_tasks.append(task)
+                    break 
 
-    # Add the user's query to the messages list.
-    messages.append({"role": "user", "content": f"{prompt}"})
+        if not valid_tasks:
+            return [f"general {prompt}"]
 
-    # Create a streaming chat session with the Cohere model.
-    stream = co.chat_stream(
-        model='command-a-03-2025',  # Specify the Cohere model to use.
-        message=prompt,  # Pass the user's query.
-        temperature=0.7,  # Set the creativity level of the model.
-        chat_history=ChatHistory,  # Provide the predefined chat history for context.
-        prompt_truncation='OFF',  # Ensure the prompt is not truncated.
-        connectors=[],  # No additional connectors are used.
-        preamble=preamble  # Pass the detailed instruction preamble.
-    )
+        return valid_tasks
 
-    # Initialize an empty string to store the generated response.
-    response = ""
+    except Exception as e:
+        logging.error(f"Groq DMM Execution Failed: {e}")
+        return [f"general {prompt}"]
 
-    # Iterate over events in the stream and capture text generation events.
-    for event in stream:
-        if event.event_type == "text-generation":
-            response += event.text  # Append generated text to the response.
-
-    # Remove newline characters and split responses into individual tasks.
-    response = response.replace("\n", " ")
-    response = response.split(",")
-
-    # Filter and sanitize the generated response.
-    response = [i.strip() for i in response]
-
-    # Initialize an empty list to filter valid tasks.
-    temp = []
-
-    # Filter the tasks based on recognized function keywords.
-    for task in response:
-        for func in funcs:
-            if task.startswith(func):
-                temp.append(task)  # Add valid tasks to the filtered list.
-
-    # Update the response with the filtered list of tasks.
-    response = temp
-
-    # If "query" is in the response, recursively call the function for further clarification.
-    if "query" in response:
-        newresponse = FirstLayerDMM(prompt=prompt)
-        return newresponse  # Return the clarified response.
-    else:
-        return response  # Return the filtered response.
-
-
-# Main entry point for the script.
 if __name__ == "__main__":
-    # Continuously prompt the user for input and process it.
+    print("[bold cyan]Jarvis DMM Module Initialized. Type a query to test classification.[/bold cyan]")
     while True:
-        print(FirstLayerDMM(input(">>> ")))  # Print the categorized response.
+        try:
+            user_input = input(">>> ")
+            if user_input.lower() in ['exit', 'quit']:
+                break
+            print(FirstLayerDMM(user_input))
+        except KeyboardInterrupt:
+            print("\nExiting DMM test environment.")
+            break
